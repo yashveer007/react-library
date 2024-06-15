@@ -31,11 +31,15 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User login(String userName, String password) {
+    public String login(String userName, String password) {
 
         Optional<User> optionalUser = dao.findById(userName);
         if(optionalUser.isPresent()){
-            return optionalUser.get();
+            User user =  optionalUser.get();
+            if(user.getPassword().equals(password)){
+                return user.getUserName();
+            }
+            throw new NoAccountFoundException("Enter Incorrect Password");
         }else{
             throw new NoAccountFoundException("No Account Found");
         }
