@@ -1,6 +1,7 @@
 package com.example.library.controller;
 
 import com.example.library.dto.ExceptionResponse;
+import com.example.library.exception.BookNotFoundException;
 import com.example.library.exception.NoAccountFoundException;
 import com.example.library.exception.SomethingWentWrongException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,7 +15,7 @@ import java.util.Date;
 @RestControllerAdvice
 public class GlobalExceptionController {
 
-    @ExceptionHandler(value = {SomethingWentWrongException.class, NoAccountFoundException.class})
+    @ExceptionHandler(value = {SomethingWentWrongException.class, NoAccountFoundException.class, BookNotFoundException.class})
     @ResponseStatus(code = HttpStatus.NOT_FOUND)
     private ExceptionResponse handleNotFound(RuntimeException ex , HttpServletRequest request){
         return new ExceptionResponse(new Date(), HttpStatus.NOT_FOUND.value(),
