@@ -1,5 +1,6 @@
 package com.example.library.services;
 
+import com.example.library.constant.ApplicationConstants;
 import com.example.library.dao.BookDao;
 import com.example.library.entities.Book;
 import com.example.library.exception.BookNotFoundException;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -43,7 +45,7 @@ public class BookServiceImpl implements BookService {
             }
             throw new BookNotFoundException("No Book Found in DB");
         }catch (Exception ex){
-            throw new SomethingWentWrongException("Exception Occured while fetching data from DB");
+            throw new SomethingWentWrongException(ApplicationConstants.SOMETHING_WENT_WORNG);
         }
     }
 
@@ -54,7 +56,15 @@ public class BookServiceImpl implements BookService {
      */
     @Override
     public Book getBookById(int bookId) {
-        return null;
+        try{
+            Optional<Book> optionalBook = dao.findById(bookId);
+            if(optionalBook.isPresent()){
+                return optionalBook.get();
+            }
+            throw new BookNotFoundException("No Book Found in DB");
+        }catch (Exception ex){
+            throw new SomethingWentWrongException(ApplicationConstants.SOMETHING_WENT_WORNG);
+        }
     }
 
     /**
@@ -63,7 +73,13 @@ public class BookServiceImpl implements BookService {
      * @return
      */
     @Override
-    public Book deleteBookById(int bookId) {
-        return null;
+    public String deleteBookById(int bookId) {
+        try{
+            dao.deleteById(bookId);
+            return "deleted Successfully!!";
+        }catch (Exception ex){
+            throw new SomethingWentWrongException(ApplicationConstants.SOMETHING_WENT_WORNG);
+        }
+
     }
 }
