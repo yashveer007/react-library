@@ -25,5 +25,6 @@ public class Book {
     private String rating;
     private String printingYear;
     private String publication;
+    private String bookType;
 
 }
